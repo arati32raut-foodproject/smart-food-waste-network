@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Admin Panel</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body class="admin-page">
+
+<div class="admin-header">
+
+<h1>🍲 Food Donations</h1>
+
+<button class="logout-btn" onclick="logout()">
+Logout
+</button>
+
+</div>
+
+<div class="search-box">
+
+<input
+type="text"
+id="search"
+placeholder="🔍 Search Food Name..."
+onkeyup="searchDonation()"
+>
+
+</div>
+
+<div id="summary" style="
+display:flex;
+justify-content:center;
+gap:20px;
+margin:25px;
+flex-wrap:wrap;
+">
+</div>
+
+<div id="data"></div>
+
+<script>
+
+async function loadData(){
+
+const response = await fetch("/donations");
+
+const donations = await response.json();
+
+console.log(donations);
+
+let output = "";
+
+let pending = 0;
+let accepted = 0;
+let completed = 0;
+donations.forEach((item)=>{
+
+    if(item.status=="Pending"){
+    pending++;
+}
+else if(item.status=="Accepted"){
+    accepted++;
+}
+else if(item.status=="Completed"){
+    completed++;
+}
+
+output += `
+
+<div class="card">
+
+<h2>${item.foodname}</h2>
+
+<p><b>Quantity:</b> ${item.quantity}</p>
+
+<p><b>Location:</b> ${item.location}</p>
+
+<p><b>Contact:</b> ${item.contact}</p>
+
+<p><b>Food Type:</b> ${item.foodtype}</p>
+
+<p><b>Status:</b> ${item.status}</p>
+
+<button onclick="deleteDonation('${item._id}')">
+
+Delete
+
+</button>
+
+<select onchange="updateStatus('${item._id}', this.value)">
+
+<option value="Pending" ${item.status=="Pending" ? "selected" : ""}>
+Pending
+</option>
+
+<option value="Accepted" ${item.status=="Accepted" ? "selected" : ""}>
+Accepted
+</option>
+
+<option value="Completed" ${item.status=="Completed" ? "selected" : ""}>
+Completed
+</option>
+
+</select>
+
+</div>
+
+`;
+
+});
+
+console.log(output);
+document.getElementById("summary").innerHTML = `
+
+<div class="summary-card">
+<h2>${donations.length}</h2>
+<p>Total Donations</p>
+</div>
+
+<div class="summary-card">
+<h2>${pending}</h2>
+<p>Pending</p>
+</div>
+
+<div class="summary-card">
+<h2>${accepted}</h2>
+<p>Accepted</p>
+</div>
+
+<div class="summary-card">
+<h2>${completed}</h2>
+<p>Completed</p>
+</div>
+
+`;
+
+document.getElementById("data").innerHTML = output;
+
+console.log("Cards Added");
+console.log(document.getElementById("data").innerHTML);
+}
+
+async function deleteDonation(id){
+
+await fetch("/delete/" + id,{
+
+method:"DELETE"
+
+});
+
+alert("Donation Deleted");
+
+loadData();
+
+}
+
+async function updateStatus(id,status){
+
+await fetch("/status/" + id,{
+
+method:"PUT",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({status:status})
+
+});
+
+alert("Status Updated");
+
+loadData();
+
+}
+
+loadData();
+
+function logout(){
+
+alert("Logout Successful");
+
+window.location.href = "login.html";
+
+}
+
+function searchDonation(){
+
+    const input = document.getElementById("search").value.toLowerCase();
+
+    const cards = document.getElementsByClassName("card");
+
+    for(let i = 0; i < cards.length; i++){
+
+        const food = cards[i].getElementsByTagName("h2")[0].innerText.toLowerCase();
+
+        if(food.includes(input)){
+
+            cards[i].style.display = "block";
+
+        }
+
+        else{
+
+            cards[i].style.display = "none";
+
+        }
+
+    }
+
+}
+</script>
+
+</body>
+
+</html>

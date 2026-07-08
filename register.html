@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Register</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    
+</head>
+
+
+<body class="register-page">
+
+<div class="register-box">
+
+    <h1>Register</h1>
+
+    <form id="registerForm">
+
+    <input type="text" id="name" placeholder="Enter Name" required>
+
+    <input type="email" id="email" placeholder="Enter Email" required>
+
+    <input type="password" id="password" placeholder="Enter Password" required>
+
+    <input type="tel" id="phone" placeholder="Enter Phone Number" required>
+
+    <button type="submit">
+        Register
+    </button>
+
+</form>
+
+    <br>
+
+    <p>
+        Already have account?
+        <a href="login.html">Login</a>
+    </p>
+
+</div>
+<script>
+
+document.getElementById("registerForm").addEventListener("submit", async function(e){
+
+    e.preventDefault();
+
+    const data = {
+
+        name: document.getElementById("name").value,
+
+        email: document.getElementById("email").value,
+
+        password: document.getElementById("password").value,
+
+        phone: document.getElementById("phone").value
+
+    };
+
+    const response = await fetch("/register",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body: JSON.stringify(data)
+
+    });
+
+    const result = await response.text();
+
+    alert(result);
+
+    if(result === "Registration Successful"){
+
+        window.location.href = "login.html";
+
+    }
+
+});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Admin Login</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body class="login-page">
+
+<div class="login-box">
+
+<h1>Admin Login</h1>
+
+<form id="loginForm">
+
+<input type="email" id="email" placeholder="Enter Email" required>
+
+<input type="password" id="password" placeholder="Enter Password" required>
+
+<button type="submit">
+
+Login
+
+</button>
+
+</form>
+
+</div>
+
+<script>
+
+document.getElementById("loginForm").addEventListener("submit", async function(e){
+
+    e.preventDefault();
+
+    const data = {
+
+        email: document.getElementById("email").value,
+
+        password: document.getElementById("password").value
+
+    };
+
+    const response = await fetch("/login",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body: JSON.stringify(data)
+
+    });
+
+    const result = await response.text();
+
+    alert(result);
+
+    if(result === "Login Successful"){
+
+        window.location.href = "admin.html";
+
+    }
+
+});
+
+</script>
+
+</body>
+
+</html>

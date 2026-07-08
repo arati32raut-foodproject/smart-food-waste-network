@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Donate Food</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+
+</head>
+
+<body class="donate-page">
+
+<div class="donate-box">
+
+<h1>Donate Food 🍲</h1>
+
+<p class="subtitle">
+
+Help reduce food waste and feed needy people
+
+</p>
+
+<form id="donationForm">
+
+<div class="input-box">
+
+<label>Food Name</label>
+
+<input type="text" placeholder="Enter Food Name" required>
+
+</div>
+
+<div class="input-box">
+
+<label>Quantity</label>
+
+<input type="number" placeholder="Enter Quantity" required>
+
+</div>
+
+<div class="input-box">
+
+<label>Pickup Location</label>
+
+<div class="location-box">
+
+<span>📍</span>
+
+<input type="text" placeholder="Enter Pickup Location" required>
+
+</div>
+
+</div>
+
+<div class="input-box">
+
+<label>Contact Number</label>
+
+<input type="tel" placeholder="Enter Contact Number" required>
+
+</div>
+
+<div class="input-box">
+
+<label>Food Type</label>
+
+<select required>
+
+<option value="">Select Food Type</option>
+
+<option>Veg</option>
+
+<option>Non-Veg</option>
+
+</select>
+
+</div>
+
+<div class="input-box">
+
+<label>Food Image</label>
+
+<input type="file">
+
+</div>
+
+<div class="input-box">
+
+<label>Additional Details</label>
+
+<textarea placeholder="Write Details"></textarea>
+
+</div>
+
+<button type="submit">
+
+Submit Donation
+
+</button>
+
+</form>
+
+<div class="map-box">
+
+<h2>📍 Fast Pickup Service</h2>
+
+<p>
+
+Our volunteers will collect your donated food quickly and safely.
+
+</p>
+
+</div>
+
+</div>
+
+<script>
+
+document.getElementById("donationForm")
+.addEventListener("submit", async function(e){
+
+e.preventDefault();
+
+const data = {
+
+foodname: document.querySelector('input[placeholder="Enter Food Name"]').value,
+
+quantity: document.querySelector('input[placeholder="Enter Quantity"]').value,
+
+location: document.querySelector('input[placeholder="Enter Pickup Location"]').value,
+
+contact: document.querySelector('input[placeholder="Enter Contact Number"]').value,
+
+foodtype: document.querySelector("select").value,
+
+details: document.querySelector("textarea").value
+
+};
+
+const response = await fetch("/donate", {
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body: JSON.stringify(data)
+
+});
+
+const result = await response.text();
+
+alert(result);
+
+});
+
+</script>
+
+</body>
+
+</html>

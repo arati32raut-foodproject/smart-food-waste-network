@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Smart Food Waste Network</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body class="home-page">
+
+    <header>
+        <h1>Smart Food Waste Network</h1>
+    </header>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="login.html">Login</a>
+        <a href="register.html">Register</a>
+        <a href="donate.html">Donate</a>
+        <a href="gallery.html">Gallery</a>
+
+    </nav>
+
+    <section class="hero">
+
+        <h1 class="animate-title">
+
+            Smart Food Waste Network
+
+        </h1>
+
+        <p class="animate-text">
+
+            Turning Extra Food Into Hope 🍲
+
+        </p>
+
+        <button onclick="window.location.href='donate.html'">
+
+            Donate Now
+
+        </button>
+
+    </section>
+
+    <div class="features">
+
+        <div class="box">
+            <h2>Food Donation</h2>
+            <p>Donate food easily.</p>
+        </div>
+
+        <div class="box">
+            <h2>NGO Support</h2>
+            <p>Connect with NGOs.</p>
+        </div>
+
+        <div class="box">
+            <h2>Reduce Waste</h2>
+            <p>Help society.</p>
+        </div>
+
+    </div>
+    <section class="stats">
+
+        <div class="stat-box">
+
+            <h1 id="donationCount">
+
+                0
+
+            </h1>
+
+            <p>Food Donations</p>
+
+        </div>
+
+        <div class="stat-box">
+
+            <h1 id="ngoCount">
+
+                0
+
+            </h1>
+
+            <p>NGOs Connected</p>
+
+        </div>
+
+        <div class="stat-box">
+
+            <h1 id="mealCount">
+
+                0
+
+            </h1>
+
+            <p>Meals Saved</p>
+
+        </div>
+
+    </section>
+
+    <script>
+
+        async function loadStats() {
+
+            const response = await fetch("/stats");
+
+            const data = await response.json();
+
+            document.getElementById("donationCount")
+                .innerText = data.donations + "+";
+
+            document.getElementById("ngoCount")
+                .innerText = data.ngos + "+";
+
+            document.getElementById("mealCount")
+                .innerText = data.meals + "+";
+
+        }
+
+        loadStats();
+
+    </script>
+
+    <footer>
+        <center>
+            <h2>
+                <p class="copyright">
+
+                    © 2026 Smart Food Waste Network | All Rights Reserved
+
+                </p>
+            </h2>
+        </center>
+
+    </footer>
+
+</body>
+
+</html>
